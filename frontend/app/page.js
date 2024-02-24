@@ -1,21 +1,23 @@
 'use client'
 import axios from "axios";
-
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  //Initialization of states
   const [currencies, setCurrencies] = useState([])
   const [fromCurrency, setFromCurrency] = useState('')
   const [toCurrency, setToCurrency] = useState('')
   const [amount, setAmount] = useState('')
   const [converted, setConverted] = useState(null)
 
+  //Fetching the currencies
   useEffect(()=>{
     axios.get('http://localhost:8000/api/currencies/')
     .then(response => setCurrencies(response.data))
     .catch(error => console.log('Error fetching currencies: ', error))
   },[])
 
+  //Functionality to convert currency
   const convertCurrency =()=>{
     axios.get(`http://localhost:8000/api/convert/${fromCurrency}/${toCurrency}/${amount}`)
     .then(response => setConverted(response.data.converted_amount))
